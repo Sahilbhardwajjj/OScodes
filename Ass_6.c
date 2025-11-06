@@ -1,12 +1,3 @@
-/*
-Name-Ayush Karanjkhele
-RollNo.-I3104
-ASSIGNMENT 6:-
-Problem Statement:-
-To implement page replacement algorithms using virtual memory
-
-*/
-//code 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -168,6 +159,24 @@ int main(void) {
     return 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //OutPut
 /*
 
@@ -275,3 +284,89 @@ ayush@Legion:~/Ayush_I3104$
 
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Important Terms:
+
+⁠ #include <stdio.h> ⁠ → Standard Input/Output library
+⁠ #include <stdlib.h> ⁠ → Standard library for general utilities
+⁠ #include <ctype.h> ⁠ → Used for character handling functions like ⁠ isspace() ⁠
+⁠ #define ⁠ → Used to define constants
+⁠ MAX_PAGES ⁠, ⁠ MAX_FRAME ⁠ → Maximum limits for pages and frames
+⁠ static ⁠ → Function scope limited to this file
+⁠ int main(void) ⁠ → Main function where execution starts
+⁠ fgets() ⁠ → Takes input string
+⁠ scanf() ⁠ → Takes formatted input
+⁠ isspace() ⁠ → Checks if a character is space
+⁠ printf() ⁠ → Prints output on screen
+
+---
+
+### Function Explanation (in short):
+
+*1. in_frames()*
+→ Checks if a page is already present in frames
+→ Returns its index if found, else ⁠ -1 ⁠
+
+*2. print_row()*
+→ Prints the current page, frame contents, and status (HIT/FAULT)
+
+*3. fifo()* (First In First Out)
+→ Oldest page is replaced first when frame is full
+→ Uses ⁠ next ⁠ pointer to track replacement position
+→ Counts page faults
+
+*4. optimal()* (Optimal Page Replacement)
+→ Replaces the page which is used farthest in the future
+→ Looks ahead in the reference string to decide which page to remove
+→ Gives the *minimum page faults* theoretically
+
+*5. lru()* (Least Recently Used)
+→ Replaces the page that was used least recently
+→ Uses ⁠ last_used[] ⁠ array to store last used time for each page
+
+*6. main()*
+→ Takes reference string and frame size from user
+→ Displays a menu to select algorithm (FIFO / LRU / OPTIMAL)
+→ Calls the selected function
+→ Shows total number of page faults
+
+---
+
+### Short Summary (for viva):
+
+This C program simulates *page replacement algorithms* used in operating systems:
+FIFO, LRU, and Optimal.
+It takes a page reference string and frame size from the user, then shows how pages are loaded into frames and when faults occur.
+Each algorithm uses a different strategy to replace pages when the frame is full, and finally shows the total number of *page faults*.
+
+
+
+
+
