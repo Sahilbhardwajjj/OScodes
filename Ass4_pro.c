@@ -164,3 +164,26 @@ producer thread id: 5288, produced item: 15
 ^C
 ayush@Legion:~/Ayush_I3104$
 */
+
+| *Topic*                 | *Question*                                                | *Short Answer*                                                                                                   |
+| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| *Concept*               | What is the Producer–Consumer problem?                      | A synchronization problem where producers add items to a shared buffer and consumers remove them without conflict. |
+| *Semaphores Used*       | Which semaphores are used?                                  | ⁠ sh.full ⁠, ⁠ sh.empty ⁠ (counting semaphores), and ⁠ mutex ⁠ (binary semaphore).                                       |
+| *Semaphore Roles*       | Role of each semaphore?                                     | ⁠ empty ⁠ → empty slots; ⁠ full ⁠ → filled slots; ⁠ mutex ⁠ → ensures one thread accesses buffer at a time.              |
+| *Initialization*        | Why ⁠ sh.empty = BUFFER_SIZE ⁠ and ⁠ sh.full = 0 ⁠?             | Initially, all buffer slots are empty and none are full.                                                           |
+| *Binary vs Counting*    | Difference between binary and counting semaphore?           | Binary → only 0 or 1 (like mutex); Counting → can hold any integer value.                                          |
+| *Functions*             | Use of ⁠ sem_wait() ⁠ and ⁠ sem_post() ⁠?                       | ⁠ sem_wait() ⁠ decrements or blocks; ⁠ sem_post() ⁠ increments and signals.                                            |
+| *Critical Section*      | Why use ⁠ sem_wait(&mutex) ⁠ and ⁠ sem_post(&mutex) ⁠?          | To prevent multiple threads from updating shared buffer simultaneously.                                            |
+| *Circular Buffer*       | Why ⁠ (in + 1) % BUFFER_SIZE ⁠?                               | To wrap around indices — making the buffer circular.                                                               |
+| *Thread Functions*      | What do ⁠ pthread_create() ⁠ and ⁠ pthread_join() ⁠ do?         | Create and wait for threads to complete.                                                                           |
+| *Race Condition*        | What is a race condition?                                   | When threads access shared data concurrently without proper synchronization.                                       |
+| *Deadlock*              | What is a deadlock? Could it occur here?                    | Threads waiting forever for each other. Not here if semaphore order is correct.                                    |
+| *Process vs Thread*     | Difference between process and thread?                      | Process = independent memory; Thread = shared memory space.                                                        |
+| *⁠ syscall(SYS_gettid) ⁠* | Why used?                                                   | To print real thread ID (system-level ID) for clarity.                                                             |
+| *⁠ sleep(2) ⁠ use*        | Why added?                                                  | To slow down output for readability; not for synchronization.                                                      |
+| *Buffer Size Effect*    | If BUFFER_SIZE increases?                                   | More items can be produced before blocking.                                                                        |
+| *⁠ next_item ⁠*           | What does it do?                                            | Generates unique items for producers.                                                                              |
+| *Thread Safety*         | Is ⁠ next_item ⁠ thread-safe?                                 | Not fully — should be updated inside mutex.                                                                        |
+| *Without Mutex*         | What happens if ⁠ mutex ⁠ is removed?                         | Race condition — corrupted data or skipped items.                                                                  |
+| *Termination*           | How to stop infinite loop?                                  | Add item limit or stop flag, then ⁠ pthread_exit() ⁠.                                                                |
+| *Semaphore vs Mutex*    | Difference between ⁠ sem_init() ⁠ and ⁠ pthread_mutex_init() ⁠? | Semaphore = counter-based, general; Mutex = binary, simpler for locking.    
