@@ -7,8 +7,9 @@ Problem Statement:-
 a. Implement the C program in which main program accepts the integers to be sorted. Main program uses the FORK system call to create a new process called a child process.
 Parent process sorts the integers using sorting algorithm and waits for child process using WAIT system call to sort the integers using any sorting algorithm. Also demonstrate
 zombie and orphan states.
+*/
 
-*/#include<sys/types.h>
+#include<sys/types.h>
 #include<stdio.h>
 #include<unistd.h>
 void bubble_acs(int a[50],int n)
@@ -84,6 +85,35 @@ else
 return 0;
 }  
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 
 Orphan state output:-
 
@@ -104,9 +134,6 @@ List of Numbers in Descending Order:
 1
 I am child and my id is 2689 
 I am parent and my id is 1357
-
-
-
 
 
 
@@ -133,5 +160,34 @@ List of Numbers in Descending Order:
 6
 4
 1
-
 */
+
+
+
+
+
+this program demonstrates *process creation using fork()* and *sorting numbers* in ascending or descending order using bubble sort.
+
+important terms:
+fork() – creates a new child process. the program continues to run in both parent and child.
+getpid() – returns the process id of the current process.
+getppid() – returns the parent process id of the current process.
+wait() – makes the parent wait until the child process finishes execution.
+sleep() – pauses the program execution for a few seconds.
+system() – runs a shell command inside the program (used here to show process details).
+bubble_acs() – function that sorts the array in ascending order.
+bubble_dcs() – function that sorts the array in descending order.
+
+explanation of code:
+
+1.⁠ ⁠the user enters how many numbers they want to input and then enters the list of numbers.
+2.⁠ ⁠fork() is called to create a child process.
+3.⁠ ⁠if pid == 0 → this block runs for the *child process*.
+   it prints its process id (getpid) and its parent’s process id (getppid).
+4.⁠ ⁠if pid > 0 → this block runs for the *parent process*.
+   it uses wait() to wait until the child process terminates.
+   then it prints the child’s pid that terminated and its own process id.
+5.⁠ ⁠after the child finishes, the parent sorts the numbers in descending order using bubble_dcs() and prints them.
+6.⁠ ⁠the functions bubble_acs() and bubble_dcs() are standard bubble sort implementations — one arranges numbers in ascending order, and the other in descending order.
+
+short explanation – this program shows how fork() creates a child process. the child prints its pid and parent pid, and the parent waits for the child to finish. after that, the parent sorts the entered list of numbers in descending order and displays them. this demonstrates process creation, parent-child relationship, and use of wait() for synchronization
