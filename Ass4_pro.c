@@ -1,14 +1,3 @@
-/* Name:-Ayush Karanjkhele
-Roll No:-I3104
-ASSIGNMENT 4(A):-
-
-Problem Statement:-
- Thread synchronization using counting semaphores and mutual 
-exclusion using mutex. Application to demonstrate: Producer 
-Consumer problem with counting semaphores and
-mutex.
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>         // sleep()
@@ -133,6 +122,16 @@ void *consumer(void *arg)
 
     return NULL;
 }
+
+
+
+
+
+
+
+
+
+
 // Output
 /*
 ayush@Legion:~/Ayush_I3104$ gcc -pthread  Ass4_pro.c -o produce
@@ -161,9 +160,17 @@ producer thread id: 5287, produced item: 13
 consumer thread id: 5289, consumed item: 7
 producer thread id: 5287, produced item: 14
 producer thread id: 5288, produced item: 15
-^C
-ayush@Legion:~/Ayush_I3104$
 */
+
+
+
+
+
+
+
+
+
+
 
 | *Topic*                 | *Question*                                                | *Short Answer*                                                                                                   |
 | ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
