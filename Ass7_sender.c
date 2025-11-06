@@ -49,7 +49,6 @@ int main()
 }
 
 // Second code
-/*
 // Ass 7 - Part 2
 #include<stdio.h>
 #include<unistd.h>
