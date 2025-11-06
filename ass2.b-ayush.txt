@@ -1,15 +1,3 @@
-/* 
-Name:-Ayush Kothadia
-Roll No:-I3106
-ASSIGNMENT 2(B):-
-
-Problem Statement:-
- Process Control system calls. The demonstratiion of FORK,EXECVE and WAIT system calls along with zombieand orphan states.
-
-b. Implement the C program in which main program accepts an integer array. Main program uses the FORK system call to create a new process called a child process. Parent process sorts an integer array and passes the sorted array to child process through the command line arguments of EXECVE system call. The child process uses EXECVE system call to load new program that uses this sorted array for performing the binary search to search the particular item in the array.
-
-*/
-
 //parent code
 // main_process.c
 #include <stdio.h>
@@ -136,6 +124,23 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Output
 student@ubuntu:~/Ayush_I3104$ gcc main_process.c -o main_proc
 student@ubuntu:~/Ayush_I3104$ gcc binary_search_program.c -o search_prog
@@ -154,3 +159,57 @@ student@ubuntu:~/Ayush_I3104$ ./main_proc ./search_prog 34 12 9 78 56
 [Parent] Child finished. PID: 4247
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this program demonstrates *interprocess communication using fork() and execve()*,
+where the parent process sorts numbers in ascending order and the child process
+(a separate executable file) sorts the same numbers in descending order.
+
+important terms:
+fork() – creates a new process. the parent continues execution, and the child runs as a separate process.
+execve() – replaces the current process image with a new program (used here to execute the child program).
+wait() – makes the parent wait for the child to finish execution.
+atoi() – converts a string to an integer.
+malloc() – dynamically allocates memory to store command-line arguments as strings.
+free() – releases the dynamically allocated memory.
+getpid() – returns the process id of the current process.
+getppid() – returns the process id of the parent process.
+argc / argv – command-line arguments count and list respectively.
+sort_ascending() – sorts numbers in ascending order (used by parent).
+sort_descending() – sorts numbers in descending order (used by child).
+child_args – array used to pass sorted numbers from parent to child process through execve().
+
+explanation of first code (parent process):
+
+1.⁠ ⁠the parent process takes command-line input: the child program’s path and a list of numbers.
+2.⁠ ⁠it converts the numbers from string to integer and sorts them in ascending order using sort_ascending().
+3.⁠ ⁠it prepares a new argument list (child_args) that includes the sorted numbers, which will be passed to the child program.
+4.⁠ ⁠fork() is called – it creates a child process.
+
+   * in the *child process*, execve() is executed, which runs the separate child program and passes the sorted list to it.
+   * in the *parent process*, wait() ensures that the parent waits for the child to finish execution.
+5.⁠ ⁠after the child finishes, the parent displays the child’s pid and cleans up dynamically allocated memory.
+
+explanation of second code (child process):
+
+1.⁠ ⁠this separate executable (child_process.c) receives the sorted numbers as command-line arguments.
+2.⁠ ⁠it converts them into integers and prints its pid.
+3.⁠ ⁠it calls sort_descending() to sort the numbers in descending order and displays the result.
+short explanation – the parent process sorts the numbers in ascending order and passes them to a separate 
+executable child process using execve(). the child process sorts the same numbers in descending order. this
+demonstrates process creation, parent-child synchronization using fork() and wait(), and program replacement
+using execve().
