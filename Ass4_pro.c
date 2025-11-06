@@ -172,25 +172,75 @@ producer thread id: 5288, produced item: 15
 
 
 
-| *Topic*                 | *Question*                                                | *Short Answer*                                                                                                   |
-| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| *Concept*               | What is the Producer–Consumer problem?                      | A synchronization problem where producers add items to a shared buffer and consumers remove them without conflict. |
-| *Semaphores Used*       | Which semaphores are used?                                  | ⁠ sh.full ⁠, ⁠ sh.empty ⁠ (counting semaphores), and ⁠ mutex ⁠ (binary semaphore).                                       |
-| *Semaphore Roles*       | Role of each semaphore?                                     | ⁠ empty ⁠ → empty slots; ⁠ full ⁠ → filled slots; ⁠ mutex ⁠ → ensures one thread accesses buffer at a time.              |
-| *Initialization*        | Why ⁠ sh.empty = BUFFER_SIZE ⁠ and ⁠ sh.full = 0 ⁠?             | Initially, all buffer slots are empty and none are full.                                                           |
-| *Binary vs Counting*    | Difference between binary and counting semaphore?           | Binary → only 0 or 1 (like mutex); Counting → can hold any integer value.                                          |
-| *Functions*             | Use of ⁠ sem_wait() ⁠ and ⁠ sem_post() ⁠?                       | ⁠ sem_wait() ⁠ decrements or blocks; ⁠ sem_post() ⁠ increments and signals.                                            |
-| *Critical Section*      | Why use ⁠ sem_wait(&mutex) ⁠ and ⁠ sem_post(&mutex) ⁠?          | To prevent multiple threads from updating shared buffer simultaneously.                                            |
-| *Circular Buffer*       | Why ⁠ (in + 1) % BUFFER_SIZE ⁠?                               | To wrap around indices — making the buffer circular.                                                               |
-| *Thread Functions*      | What do ⁠ pthread_create() ⁠ and ⁠ pthread_join() ⁠ do?         | Create and wait for threads to complete.                                                                           |
-| *Race Condition*        | What is a race condition?                                   | When threads access shared data concurrently without proper synchronization.                                       |
-| *Deadlock*              | What is a deadlock? Could it occur here?                    | Threads waiting forever for each other. Not here if semaphore order is correct.                                    |
-| *Process vs Thread*     | Difference between process and thread?                      | Process = independent memory; Thread = shared memory space.                                                        |
-| *⁠ syscall(SYS_gettid) ⁠* | Why used?                                                   | To print real thread ID (system-level ID) for clarity.                                                             |
-| *⁠ sleep(2) ⁠ use*        | Why added?                                                  | To slow down output for readability; not for synchronization.                                                      |
-| *Buffer Size Effect*    | If BUFFER_SIZE increases?                                   | More items can be produced before blocking.                                                                        |
-| *⁠ next_item ⁠*           | What does it do?                                            | Generates unique items for producers.                                                                              |
-| *Thread Safety*         | Is ⁠ next_item ⁠ thread-safe?                                 | Not fully — should be updated inside mutex.                                                                        |
-| *Without Mutex*         | What happens if ⁠ mutex ⁠ is removed?                         | Race condition — corrupted data or skipped items.                                                                  |
-| *Termination*           | How to stop infinite loop?                                  | Add item limit or stop flag, then ⁠ pthread_exit() ⁠.                                                                |
-| *Semaphore vs Mutex*    | Difference between ⁠ sem_init() ⁠ and ⁠ pthread_mutex_init() ⁠? | Semaphore = counter-based, general; Mutex = binary, simpler for locking.    
+
+this c program demonstrates the *producer-consumer problem* using *threads* and *semaphores*.
+it simulates multiple producer threads and a consumer thread that share a common circular buffer.
+synchronization between them is handled by *counting semaphores* and a *binary semaphore (mutex)* to avoid race conditions.
+
+important terms
+producer – thread that generates items and puts them into the shared buffer.
+consumer – thread that takes items from the shared buffer.
+buffer – shared circular array of fixed size (buffer_size = 20).
+semaphore – synchronization tool that controls access to shared resources.
+mutex – binary semaphore used to provide mutual exclusion (only one thread accesses critical section at a time).
+sem_wait() – decreases semaphore value; if zero, thread waits (blocks).
+sem_post() – increases semaphore value; signals another waiting thread.
+
+main()
+
+•⁠  ⁠defines shared buffer and semaphores.
+•⁠  ⁠initializes semaphores:
+  • sh.empty = buffer_size (all slots empty initially)
+  • sh.full = 0 (no filled slots initially)
+  • mutex = 1 (acts as a lock).
+•⁠  ⁠creates two producer threads and one consumer thread using pthread_create().
+•⁠  ⁠joins all threads (though they run infinitely for demo).
+
+producer()
+
+•⁠  ⁠continuously generates items (simple increasing integers).
+•⁠  ⁠waits (sem_wait) for an empty slot before producing.
+•⁠  ⁠locks the buffer using sem_wait(&mutex).
+•⁠  ⁠inserts item into buffer at index ‘in’.
+•⁠  ⁠increments ‘in’ circularly: in = (in + 1) % buffer_size.
+•⁠  ⁠prints thread id and produced item.
+•⁠  ⁠unlocks mutex using sem_post(&mutex).
+•⁠  ⁠signals that one more slot is full using sem_post(&sh.full).
+•⁠  ⁠sleeps for 2 seconds for readable output.
+
+consumer()
+
+•⁠  ⁠continuously consumes items from the shared buffer.
+•⁠  ⁠waits (sem_wait) for a filled slot before consuming.
+•⁠  ⁠locks the buffer using sem_wait(&mutex).
+•⁠  ⁠reads item from buffer at index ‘out’.
+•⁠  ⁠increments ‘out’ circularly: out = (out + 1) % buffer_size.
+•⁠  ⁠prints thread id and consumed item.
+•⁠  ⁠unlocks mutex using sem_post(&mutex).
+•⁠  ⁠signals that one more slot is empty using sem_post(&sh.empty).
+•⁠  ⁠sleeps for 2 seconds for readability.
+
+execution flow summary
+
+1.⁠ ⁠producer waits if buffer is full (no empty slots).
+2.⁠ ⁠consumer waits if buffer is empty (no full slots).
+3.⁠ ⁠mutex ensures only one thread (either producer or consumer) modifies the buffer at any moment.
+4.⁠ ⁠semaphores full and empty keep track of buffer status.
+
+key synchronization logic
+•⁠  ⁠empty semaphore prevents producer overflow.
+•⁠  ⁠full semaphore prevents consumer underflow.
+•⁠  ⁠mutex avoids simultaneous read/write conflicts.
+
+output (example)
+producer thread id: 1234, produced item: 0
+producer thread id: 1235, produced item: 1
+consumer thread id: 1236, consumed item: 0
+producer thread id: 1234, produced item: 2
+consumer thread id: 1236, consumed item: 1
+
+the output continuously alternates between producers and consumer, showing how threads cooperate safely using semaphores.
+
+in short – this program models the classic *producer-consumer synchronization 
+problem* where semaphores control buffer access and ensure smooth coordination
+    between producers and consumers without race conditions or deadlocks.
