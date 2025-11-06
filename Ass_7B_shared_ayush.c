@@ -1,18 +1,3 @@
-/*
-Name-Ayush Kothadia
-RollNo.-I3106
-
-ASSIGNMENT 7(B):-
-Problem Statement:-
-Inter-process Communication using Shared Memory using System V IPC. 
-Application to demonstrate: Client and Server Programs in which server 
-process creates a shared memory segment and writes the message to the 
-shared memory segment. Client process reads the message from the 
-shared memory segment and displays it to the screen
-
-*/
-
-//Code
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -100,6 +85,34 @@ int main(void) {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Output
 /*
 ayush@Legion:~/Ayush_I3104$ gcc Ass_7B_shared.c
@@ -113,3 +126,56 @@ Shared memory created. ID = 32807
 [Server] Shared memory detached and removed. Done.
 ayush@Legion:~/Ayush_I3104$ 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this program demonstrates inter process communication (ipc) using *shared memory* between a parent (server) and child (client) process
+
+important terms:
+shmget() – creates a shared memory segment and returns an id
+shmat() – attaches the created shared memory segment to the process address space
+shmdt() – detaches the shared memory segment from the process
+shmctl() – performs operations on shared memory like remove or control
+fork() – creates a child process
+wait() – makes parent wait until the child process finishes
+ipc_private – creates a private shared memory segment used only by related processes
+shm_size – defines total memory size (here 4096 bytes)
+strncpy() – copies string safely to shared memory buffer
+
+
+1.⁠ ⁠shared memory is created using shmget() with size 4096 bytes. permissions are set to 0666 so both processes can read and write.
+2.⁠ ⁠shmat() attaches the shared memory to the process so it can access it using a pointer (shm_buf).
+3.⁠ ⁠parent (server) asks the user to input a message and writes that message into the shared memory.
+4.⁠ ⁠after writing, fork() is called to create a child (client) process.
+5.⁠ ⁠the child reads the same message directly from shared memory (because both processes share the same memory area).
+6.⁠ ⁠child displays the message on the screen, then detaches its shared memory using shmdt().
+7.⁠ ⁠parent waits for the child to finish, then detaches the shared memory and removes it completely using shmctl() with ipc_rmid.
+short explanation – this program shows communication between parent and child process using shared memory. the server (parent) 
+writes a message to shared memory, and the client (child) reads it from the same location. after reading, both detach and the 
+shared memory is removed. shared memory allows direct communication without using files or pipes, making it very fast.
