@@ -108,3 +108,56 @@ case $ch in
 	  ;;
 	  esac
 done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this shell script is an *address book management system* created using basic linux shell commands. 
+it allows the user to create, view, insert, delete, modify, and search employee records stored in a text file.
+
+important terms:
+echo – used to display messages or prompts on the screen.
+read – takes user input and stores it in a variable.
+touch – creates an empty file.
+
+	⁠> – appends data to the end of a file.
+	⁠> cat – displays the contents of a file.
+	⁠> grep – searches for a pattern in a file.
+	⁠> grep -w – searches for exact word matches (like specific id).
+	⁠> grep -v – shows lines that do not match the given pattern (used when deleting).
+	⁠> rm – removes a file.
+	⁠> mv – renames or moves files (used here to replace old file with new one).
+	⁠> case...esac – conditional structure used for menu-based options.
+	⁠> while loop – repeatedly displays the menu until the user chooses to exit.
+	⁠> ch – variable used to store user’s choice.
+	⁠> $fname – name of the address book file entered by the user.
+	⁠> temp – temporary file used during delete or modify operations.
+
+short explanation –
+
+1.⁠ ⁠the program first asks for the name of the address book file and creates it using the touch command.
+2.⁠ ⁠it then adds a header line with field names (name, id, dob, address, mobile number, salary).
+3.⁠ ⁠a menu is displayed in a while loop with options (1 to 7).
+4.⁠ ⁠based on the user’s choice:
+
+   * option 1 → create multiple records and store them in the file.
+   * option 2 → view all records using cat.
+   * option 3 → insert a single new record.
+   * option 4 → delete a record by employee id using grep and temp file.
+   * option 5 → modify a record by deleting the old one and inserting a new one.
+   * option 6 → search for a record by employee id using grep.
+   * option 7 → exit the program (loop ends).
+
+in short – this script is a simple command-line address book that performs basic file operations like create, view, insert, delete, modify, and search using linux shell commands and text file manipulation.
