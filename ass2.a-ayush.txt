@@ -1,14 +1,3 @@
-/*
-Name:- Ayush Kothadia
-Roll No:- I3106
-Problem Statement:-
- The demonstration of fork, execve and wait system calls along with zombie and orphan states.
-
-a. Implement the C program in which main program accepts the integers to be sorted. Main program uses the FORK system call to create a new process called a child process.
-Parent process sorts the integers using sorting algorithm and waits for child process using WAIT system call to sort the integers using any sorting algorithm. Also demonstrate
-zombie and orphan states.
-*/
-
 #include<sys/types.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -166,6 +155,20 @@ List of Numbers in Descending Order:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 this program demonstrates *process creation using fork()* and *sorting numbers* in ascending or descending order using bubble sort.
 
 important terms:
@@ -191,3 +194,4 @@ explanation of code:
 6.⁠ ⁠the functions bubble_acs() and bubble_dcs() are standard bubble sort implementations — one arranges numbers in ascending order, and the other in descending order.
 
 short explanation – this program shows how fork() creates a child process. the child prints its pid and parent pid, and the parent waits for the child to finish. after that, the parent sorts the entered list of numbers in descending order and displays them. this demonstrates process creation, parent-child relationship, and use of wait() for synchronization
+
