@@ -1,18 +1,3 @@
-/*
-Name-Ayush Karanjkhele
-RollNo.-I3104
-
-ASSIGNMENT 7(A):-
-Problem Statement:-
-Full duplex communication between two independent processes. 
-First process accepts sentences and writes on one pipe to be read 
-by second process and second process counts number of 
-characters, number of words and number of lines in accepted 
-sentences, writes this output in a text file and writes the contents 
-of the file on second pipe to be read by first process and displays 
-on standard output.
-
-*/
 // Ass 7 - Part 1
 #include<stdio.h>
 #include<unistd.h>
@@ -105,7 +90,16 @@ int main()
 	return 0;
 }
 
-*/
+
+
+
+
+
+
+
+
+
+
 //Output
 /*
 
@@ -134,3 +128,85 @@ Start any process first — both will wait for each other to communicate.
 ayush@Legion:~/Ayush_I3104$ 
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⁠ #include <stdio.h> ⁠ → Standard I/O functions
+⁠ #include <unistd.h> ⁠ → UNIX system calls (read, write, close, etc.)
+⁠ #include <sys/stat.h> ⁠ → File/fifo info & permissions
+⁠ #include <fcntl.h> ⁠ → File control (open, flags)
+⁠ #define MAX_BUF 1024 ⁠ → Defines buffer size
+⁠ mkfifo() ⁠ → Creates named pipe (FIFO file)
+⁠ open() ⁠ → Opens file or FIFO
+⁠ read() ⁠ → Reads data from file/FIFO
+⁠ write() ⁠ → Writes data to file/FIFO
+⁠ close() ⁠ → Closes file/FIFO descriptor
+⁠ getchar() ⁠ → Reads a single character from input
+⁠ FILE *fp ⁠ → File pointer (for normal files)
+⁠ fprintf() ⁠ → Writes formatted data to file
+⁠ dprintf() ⁠ → Writes formatted data to a file descriptor
+⁠ O_RDONLY ⁠ → Open file for reading only
+⁠ O_WRONLY ⁠ → Open file for writing only
+⁠ 0777 ⁠ → File permission (read/write/execute for all users)
+
+---
+
+### Code Explanation (In Short)
+
+#### *First Program (Sender Process):*
+
+•⁠  ⁠Creates *two FIFOs*: ⁠ myfifo1 ⁠ and ⁠ myfifo2 ⁠
+•⁠  ⁠Takes a string input from user until ⁠ # ⁠
+•⁠  ⁠Stores it in buffer ⁠ buff ⁠
+•⁠  ⁠Opens ⁠ myfifo1 ⁠ in *write mode* and sends the string
+•⁠  ⁠Opens ⁠ myfifo2 ⁠ in *read mode* to receive processed data (from 2nd program)
+•⁠  ⁠Displays the final result received
+
+👉 *Purpose:* Sends user input to another process and receives result back.
+
+---
+
+#### *Second Program (Receiver Process):*
+
+•⁠  ⁠Creates the same two FIFOs (⁠ myfifo1 ⁠, ⁠ myfifo2 ⁠)
+•⁠  ⁠Opens ⁠ myfifo1 ⁠ in *read mode* and reads the message sent by first program
+•⁠  ⁠Counts *words, lines, and characters* in the received message
+•⁠  ⁠Stores result in a file ⁠ a.txt ⁠
+•⁠  ⁠Sends result back to first process through ⁠ myfifo2 ⁠ (write mode)
+
+👉 *Purpose:* Receives data, processes it (counts lines, words, chars), and sends results back.
+
+---
+
+### *Short Viva Summary*
+
+These two programs demonstrate *Inter-Process Communication (IPC)* using *Named Pipes (FIFOs)*.
+
+•⁠  ⁠The *first program* sends a message to the *second* through ⁠ myfifo1 ⁠.
+•⁠  ⁠The *second program* reads it, counts words/lines/chars, and sends the result back through ⁠ myfifo2 ⁠.
+  This shows how two processes can *exchange data* using FIFOs in UNIX/Linux.
