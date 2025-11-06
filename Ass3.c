@@ -1,12 +1,3 @@
-/*
-Name-Ayush Karanjkhele
-RollNo.-I3104
-
-ASSIGNMENT 3:-
-Problem Statement:-
-Implement the C program for CPU Scheduling Algorithms: Shortest 
-Job First (Preemptive) and Round Robin with different arrival time.
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -390,6 +381,13 @@ void RoundRobin(process p[], int n, int tq) {
     }
     printf("\n");
 }
+
+
+
+
+
+
+
 //Output
 /*
 ayush@Legion:~/Ayush_I3104$ gcc Ass3.c
@@ -462,3 +460,91 @@ Average TAT: 8.25
 Enter choice: 3
 ayush@Legion:~/Ayush_I3104$
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this c program is a *cpu scheduling simulator* that implements two algorithms – shortest job first 
+(preemptive / srtf) and round robin scheduling. it takes process details (name, arrival time, burst time) 
+as input and then calculates waiting time (wt) and turnaround time (tat) for each process. it also displays
+the gantt chart for visualization.
+
+important terms
+process – structure that holds all process details (name, at, bt, remaining time, wt, tat, pid).
+arrival time (at) – time when process arrives in the ready queue.
+burst time (bt) – total execution time required by process.
+remaining time (rem) – used to track remaining execution in sjf/rr.
+waiting time (wt) – total time a process waits in ready queue.
+turnaround time (tat) – total time from arrival to completion.
+gantt chart – timeline representation of cpu execution order.
+time quantum (tq) – fixed time slice used in round robin.
+
+function explanation
+
+main()
+
+•⁠  ⁠takes process input using get_pcb().
+•⁠  ⁠displays a menu repeatedly:
+  1 → sjf preemptive
+  2 → round robin
+  3 → exit
+•⁠  ⁠creates a copy of the process list each time (since algorithms modify process data).
+•⁠  ⁠calls selected scheduling function, displays gantt chart, process table, and averages.
+
+get_pcb()
+
+•⁠  ⁠reads process name, arrival time, and burst time.
+•⁠  ⁠initializes remaining time = bt, wt = 0, tat = 0.
+
+disp_table()
+
+•⁠  ⁠prints final table with process name, arrival, burst, waiting, and turnaround times.
+
+cal_avgwt() and cal_avgtat()
+
+•⁠  ⁠calculate average waiting and turnaround times.
+
+sjf_preemptive()
+
+•⁠  ⁠implements shortest remaining time first (srtf) scheduling.
+•⁠  ⁠cpu picks the process with smallest remaining burst time at every unit of time.
+•⁠  ⁠if a new process arrives with a shorter remaining time, current process is preempted.
+•⁠  ⁠calculates wt = tat - bt when each process finishes.
+•⁠  ⁠builds gantt chart to show execution order.
+
+roundrobin()
+
+•⁠  ⁠implements round robin scheduling.
+•⁠  ⁠uses queue structure to store ready processes.
+•⁠  ⁠each process runs for a fixed time quantum or until completion.
+•⁠  ⁠if process not finished, it is added to the end of the queue again.
+•⁠  ⁠waiting time and turnaround time are calculated after completion.
+•⁠  ⁠gantt chart shows cyclic execution pattern of processes.
+
+output explanation (example given in code comments)
+
+1.⁠ ⁠for sjf preemptive –
+   gantt chart shows p1 → p2 → p3 → p4 → p2
+   average waiting time = 2.50
+   average turnaround time = 6.25
+
+2.⁠ ⁠for round robin (tq = 2) –
+   gantt chart shows p1 → p2 → p1 → p3 → p2 → p4 → p3 → p2
+   average waiting time = 4.50
+   average turnaround time = 8.25
+
+in short – this program simulates two cpu scheduling algorithms (sjf preemptive and round robin) 
+and calculates process performance metrics like wt and tat while also displaying the execution
+order in a gantt chart for easy understanding.
