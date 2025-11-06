@@ -1,15 +1,3 @@
-/*
-Name-Ayush Karanjkhele
-RollNo.-I3104
-
-ASSIGNMENT 8:-
-
-Problem Statement:-
-Implement the C program for Disk Scheduling Algorithms: SSTF, SCAN, C-Look considering the initial head position moving away from the spindle.
-
-*/
-
-//Code
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -240,6 +228,34 @@ void run_CLOOK(void) {
 
     printf("\nTotal head movement: %lld\n", total);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Output
 /*
 ayush@Legion:~/Ayush_I3104$ gcc Ass8.c -o disk && ./disk
@@ -319,3 +335,107 @@ Enter choice: 4
 ayush@Legion:~/Ayush_I3104$ 
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Important Keywords (Short Meaning)
+
+⁠ #include <stdio.h> ⁠ → For standard input/output functions
+⁠ #include <stdlib.h> ⁠ → For general utilities (like exit, malloc, etc.)
+⁠ void ⁠ → Function with no return value
+⁠ int main(void) ⁠ → Program execution starts here
+⁠ scanf() ⁠ → Takes input from user
+⁠ printf() ⁠ → Displays output
+⁠ switch-case ⁠ → Used for menu selection
+⁠ for loop ⁠ / ⁠ while loop ⁠ → Iteration or repetition
+⁠ if condition ⁠ → Checks true/false condition
+⁠ RQ[] ⁠ → Request queue (holds disk requests)
+⁠ head ⁠ → Current position of disk head
+⁠ total ⁠ → Stores total head movement
+⁠ sort() ⁠ → Function to arrange requests in ascending order
+⁠ run_SSTF() ⁠ → Executes Shortest Seek Time First algorithm
+⁠ run_SCAN() ⁠ → Executes SCAN (Elevator) algorithm
+⁠ run_CLOOK() ⁠ → Executes Circular LOOK algorithm
+⁠ long long ⁠ → Used for large integer (to store total movement)
+⁠ 1e9 ⁠ → Large number (used as infinity for comparison)
+
+---
+
+### Code Explanation (In Short)
+
+*Main Function:*
+
+•⁠  ⁠Displays a *menu* with 3 disk scheduling algorithms — SSTF, SCAN, and C-LOOK.
+•⁠  ⁠Takes user choice and calls respective function.
+•⁠  ⁠Keeps running until user chooses *EXIT*.
+
+---
+
+### SSTF (Shortest Seek Time First)
+
+•⁠  ⁠Picks the request *closest to the current head*.
+•⁠  ⁠Finds the request with *minimum seek distance*.
+•⁠  ⁠Moves head to that request and repeats until all are served.
+•⁠  ⁠Prints the *service order* and *total head movement*.
+
+👉 Focus: Always selects *nearest request* next.
+
+---
+
+### SCAN (Elevator Algorithm)
+
+•⁠  ⁠Head moves in one direction (up or down) and serves all requests in that direction.
+•⁠  ⁠On reaching end, it *reverses direction* and continues.
+•⁠  ⁠Like an *elevator* going to top and then back down.
+•⁠  ⁠Calculates and prints total movement.
+
+👉 Focus: Head scans back and forth across disk.
+
+---
+
+### C-LOOK (Circular LOOK)
+
+•⁠  ⁠Head moves only in *one direction* (like SCAN).
+•⁠  ⁠After reaching the end, it *jumps back to the first request* (no reverse scanning).
+•⁠  ⁠Continues again in the same direction.
+•⁠  ⁠Prints total head movement and order.
+
+👉 Focus: Works circularly, no unnecessary movement to end.
+
+---
+
+### *Viva Summary*
+
+This program demonstrates *Disk Scheduling Algorithms* used in operating systems to *reduce disk head movement* while servicing I/O requests.
+
+•⁠  ⁠*SSTF* → Chooses the nearest request.
+•⁠  ⁠*SCAN* → Moves like an elevator (up and down).
+•⁠  ⁠*C-LOOK* → Moves circularly in one direction.
+
+Goal → Minimize *seek time* and *head movement* for faster disk access.
