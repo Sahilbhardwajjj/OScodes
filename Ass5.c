@@ -1,13 +1,3 @@
-/*
-Name-Ayush Karanjkhele
-RollNo.-I3104
-
-ASSIGNMENT 5:-
-Problem Statement:-
-Implement the C program for Deadlock Avoidance Algorithm: Bankers 
-Algorithm.
-*/
-//code 
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -233,6 +223,15 @@ int safeseq(void)
         return 0;
     }
 }
+
+
+
+
+
+
+
+
+
 // Output
 /*
 ayush@Legion:~/Ayush_I3104$ gcc Ass5.c 
@@ -432,3 +431,83 @@ Press Enter to continue...
 Exiting...
 ayush@Legion:~/Ayush_I3104$
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Important Terms
+
+*Process:* a program in execution.
+*Resource:* CPU, memory, files, etc., needed by processes.
+*Allocation (all):* resources currently allocated to a process.
+*Maximum (max):* maximum resources a process may need.
+*Need:* resources still required = max - allocation.
+*Available (avail):* resources currently free in the system.
+*Request:* additional resources a process is asking for.
+*Safe State:* system can allocate resources to all processes without deadlock.
+*Unsafe State:* may lead to deadlock.
+*Work:* temporary copy of available resources used during safety check.
+*Finish:* marks whether process has completed or not.
+*Safe Sequence:* order in which processes can safely execute.
+
+---
+
+### Code Explanation (Short for Viva)
+
+1.⁠ ⁠*Structure Declaration:*
+   Defines each process with arrays for ⁠ all ⁠, ⁠ max ⁠, ⁠ need ⁠, ⁠ request ⁠ and a flag ⁠ finished ⁠.
+
+2.⁠ ⁠*Global Variables:*
+   Store available resources (⁠ avail ⁠), safe sequence (⁠ sseq ⁠), and process count (⁠ n ⁠).
+
+3.⁠ ⁠*Input Section (Choice 1):*
+
+   * Take number of processes and resources.
+   * Input available, max, and allocated resources.
+   * Compute ⁠ need = max - alloc ⁠.
+
+4.⁠ ⁠*New Request (Choice 2):*
+
+   * Process requests additional resources.
+   * If request > need → invalid.
+   * If request > available → process waits.
+   * Else → allocate temporarily and test safety using ⁠ safeseq() ⁠.
+   * If unsafe → rollback allocation.
+
+5.⁠ ⁠*Safe State Check (Choice 3):*
+
+   * Calls ⁠ safeseq() ⁠ to verify if system is in safe state.
+
+6.⁠ ⁠*Print (Choice 4):*
+
+   * Displays all resource tables and available resources.
+
+7.⁠ ⁠*Exit (Choice 5):*
+
+   * Ends the program.
+
+8.⁠ ⁠*Safe Sequence Function:*
+
+   * Copies available → work.
+   * Iteratively finds processes whose ⁠ need <= work ⁠.
+   * Marks them finished and adds their allocated resources to work.
+   * If all processes finish → system safe → print sequence.
+   * Else → unsafe state.
+
+---
+
+### One-line Summary
+
+This program uses *Banker’s Algorithm* to check if the system is *safe or 
+unsafe* after allocating resources to processes and to *avoid deadlock* by 
+verifying the *safe sequence*.
