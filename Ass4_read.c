@@ -122,3 +122,27 @@ Item READ from buffer : 67
 
 Enter the item in buffer :-
 */
+
+| *Topic*                             | *Question*                            | *Short Answer*                                                                                                                                  |
+| ------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| *Concept*                           | What is the Readers–Writers problem?    | A synchronization problem where multiple readers can read at the same time, but only one writer can write — and no reader can read while writing. |
+| *Shared Resource*                   | What is the shared resource here?       | The single-slot buffer ⁠ buf ⁠.                                                                                                                     |
+| *Goal*                              | What’s the aim of the program?          | To allow multiple readers simultaneously but only one writer exclusively.                                                                         |
+| *Threads*                           | How many threads are created?           | One writer and two readers.                                                                                                                       |
+| *Mutex Variables*                   | Which mutexes are used?                 | ⁠ mutex1 ⁠ → protects ⁠ read_count ⁠; ⁠ wrt ⁠ → ensures exclusive access for writers.                                                                   |
+| *⁠ read_count ⁠ use*                  | What does ⁠ read_count ⁠ represent?       | Number of active reader threads currently reading.                                                                                                |
+| *⁠ flag ⁠ use*                        | What is ⁠ flag ⁠ for?                     | Indicates buffer status → ⁠ 0 ⁠ = empty, ⁠ 1 ⁠ = full (new data available).                                                                           |
+| *Reader Logic*                      | How does reader ensure synchronization? | First reader locks ⁠ wrt ⁠ to block writers; last reader unlocks ⁠ wrt ⁠ after finishing.                                                             |
+| *Writer Logic*                      | What ensures only one writer at a time? | Writer locks ⁠ wrt ⁠ before writing and unlocks after writing.                                                                                      |
+| *Entry Section*                     | What happens in reader’s entry section? | ⁠ read_count ⁠ incremented safely using ⁠ mutex1 ⁠; first reader locks ⁠ wrt ⁠.                                                                         |
+| *Exit Section*                      | What happens in reader’s exit section?  | ⁠ read_count ⁠ decremented safely; last reader unlocks ⁠ wrt ⁠.                                                                                       |
+| *Critical Section*                  | What’s the critical section?            | Reading or writing to the shared buffer ⁠ buf ⁠.                                                                                                    |
+| *Mutual Exclusion*                  | How is mutual exclusion achieved?       | Using ⁠ pthread_mutex_lock() ⁠ and ⁠ pthread_mutex_unlock() ⁠.                                                                                        |
+| *Fairness*                          | Can readers starve the writer?          | Yes, in this version — continuous readers can keep blocking writer (reader preference).                                                           |
+| *Improvement*                       | How to prevent writer starvation?       | Use writer-priority or fair semaphore version (limit continuous reader access).                                                                   |
+| *Why ⁠ pthread_mutex_lock ⁠?*         | Purpose of this function?               | Locks the mutex to protect shared variable updates.                                                                                               |
+| *Why ⁠ sleep(2) ⁠ in reader?*         | Why added?                              | Simulates read delay and makes output readable.                                                                                                   |
+| *Difference from Producer–Consumer* | How is this different?                  | Here, multiple readers can read simultaneously; Producer–Consumer allows only one consumer at a time.                                             |
+| *Deadlock Possibility*              | Can deadlock occur here?                | Not if locks are acquired and released in correct order.                                                                                          |
+| *Termination*                       | Why does program run indefinitely?      | Infinite loops in threads (⁠ while(1) ⁠); manual termination needed.                                                                                |
+| *Key Synchronization Rule*          | Main rule of readers–writers problem?   | No reader should read while a writer writes, and only one writer at a time.       
