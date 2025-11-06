@@ -1,0 +1,137 @@
+/*
+Name:- Ayush Kothadia
+Roll No:- I3106
+Problem Statement:-
+ The demonstration of fork, execve and wait system calls along with zombie and orphan states.
+
+a. Implement the C program in which main program accepts the integers to be sorted. Main program uses the FORK system call to create a new process called a child process.
+Parent process sorts the integers using sorting algorithm and waits for child process using WAIT system call to sort the integers using any sorting algorithm. Also demonstrate
+zombie and orphan states.
+
+*/#include<sys/types.h>
+#include<stdio.h>
+#include<unistd.h>
+void bubble_acs(int a[50],int n)
+{
+	int i,j,temp;
+	for(i=n-1;i>0;i--)
+	{
+		for(j=0;j<i;j++)
+		{
+			if(a[j]>a[j+1])
+			{
+				temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}	
+	}
+}
+void bubble_dcs(int a[50],int n)
+{
+	int i,j,temp;
+	for(i=n-1;i>0;i--)
+	{
+		for(j=0;j<i;j++)
+		{
+			if(a[j]<a[j+1])
+			{
+				temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}	
+	}
+}
+
+int main(){
+int pid;
+int i,n,a[50],j;
+	printf("\nEnter the Number of elements:");
+	scanf("%d",&n);
+	printf("\nEnter List of Numbers:\n");
+	for(j=0;j<n;j++)
+	{
+		scanf("%d",&a[j]);
+	}
+pid = fork();
+if(pid==0)
+{
+ //sleep(5);
+		printf("\n");
+		//system("ps -el|grep -w systemd");
+ //system("ps -el|grep -w systemd");
+ printf("I am child and my id is %d \n",getpid());
+ printf("I am parent and my id is %d\n",getppid());
+}
+else
+{ 
+ system("ps -el|grep Z");
+   sleep(5);
+   int i= wait(0);
+
+   printf("The terminated child's pid is %d \n",i);
+   printf("I am parent and my id is %d \n",getpid());
+   printf("I am parent's parent and my id is %d",getppid());
+   bubble_dcs(a,n);
+		printf("\nList of Numbers in Descending Order:\n");
+		for(j=0;j<n;j++)
+		{
+			printf("%d\n",a[j]);
+		}
+	}
+
+return 0;
+}  
+
+/* 
+Orphan state output:-
+
+
+student@ubuntu:~/Desktop/I3102$ ./a.out
+
+Enter the Number of elements:3
+
+Enter List of Numbers:
+1
+2
+3
+I am parent and my id is 2688 
+I am parent's parent and my id is 1960
+List of Numbers in Descending Order:
+3
+2
+1
+I am child and my id is 2689 
+I am parent and my id is 1357
+
+
+
+
+
+
+Zombia state output:-
+
+
+student@ubuntu:~/Desktop/I3102$ ./a.out
+
+Enter the Number of elements:3
+
+Enter List of Numbers:
+1
+4
+6
+
+I am child and my id is 2807 
+I am parent and my id is 2805
+F S   UID     PID    PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+1 Z  1000    2807    2805  0  80   0 -     0 -      pts/0    00:00:00 a.out <defunct>
+The terminated child's pid is 2807 
+I am parent and my id is 2805 
+I am parent's parent and my id is 1960
+List of Numbers in Descending Order:
+6
+4
+1
+
+*/

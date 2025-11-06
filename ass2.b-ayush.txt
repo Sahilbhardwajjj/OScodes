@@ -1,0 +1,154 @@
+/* 
+Name:-Ayush Kothadia
+Roll No:-I3106
+ASSIGNMENT 2(B):-
+
+Problem Statement:-
+ Process Control system calls. The demonstratiion of FORK,EXECVE and WAIT system calls along with zombieand orphan states.
+
+b. Implement the C program in which main program accepts an integer array. Main program uses the FORK system call to create a new process called a child process. Parent process sorts an integer array and passes the sorted array to child process through the command line arguments of EXECVE system call. The child process uses EXECVE system call to load new program that uses this sorted array for performing the binary search to search the particular item in the array.
+
+*/
+//parent code
+// main_process.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+// Ascending order bubble sort
+void sort_ascending(int *arr, int size) {
+    int temp;
+    for (int pass = 0; pass < size - 1; pass++) {
+        for (int i = 0; i < size - pass - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n[Parent] Sorted array in ascending order:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <child_program_path> <num1> <num2> ...\n", argv[0]);
+        return 1;
+    }
+
+    int count = argc - 2;
+    int values[count];
+
+    // Convert input strings to integers
+    for (int i = 0; i < count; i++) {
+        values[i] = atoi(argv[i + 2]);
+    }
+
+    // Sort array in ascending order
+    sort_ascending(values, count);
+
+    // Prepare arguments for execve
+    char *child_args[count + 2];
+    child_args[0] = argv[1];  // path to child program
+
+    for (int i = 0; i < count; i++) {
+        child_args[i + 1] = malloc(12); // Enough to hold int as string
+        sprintf(child_args[i + 1], "%d", values[i]);
+    }
+    child_args[count + 1] = NULL;
+
+    // Create child process
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        // Child
+        printf("\n[Child] PID: %d | PPID: %d\n", getpid(), getppid());
+        execve(argv[1], child_args, NULL);
+        perror("execve failed");
+        exit(EXIT_FAILURE);
+    } else if (pid > 0) {
+        // Parent
+        wait(NULL);
+        printf("\n[Parent] Child finished. PID: %d\n", pid);
+    } else {
+        perror("fork failed");
+        return 1;
+    }
+
+    // Clean up memory
+    for (int i = 1; i <= count; i++) {
+        free(child_args[i]);
+    }
+
+    return 0;
+}
+// Second code(child)
+
+// child_process.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// Descending order bubble sort
+void sort_descending(int *arr, int size) {
+    int temp;
+    for (int pass = 0; pass < size - 1; pass++) {
+        for (int i = 0; i < size - pass - 1; i++) {
+            if (arr[i] < arr[i + 1]) {
+                temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n[Child] Sorted array in descending order:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <sorted_numbers>\n", argv[0]);
+        return 1;
+    }
+
+    int size = argc - 1;
+    int numbers[size];
+
+    for (int i = 0; i < size; i++) {
+        numbers[i] = atoi(argv[i + 1]);
+    }
+
+    printf("\n[Child] Executing child process with PID: %d\n", getpid());
+
+    sort_descending(numbers, size);
+
+    return 0;
+}
+
+// Out put
+student@ubuntu:~/Ayush_I3104$ gcc main_process.c -o main_proc
+student@ubuntu:~/Ayush_I3104$ gcc binary_search_program.c -o search_prog
+student@ubuntu:~/Ayush_I3104$ ./main_proc ./search_prog 34 12 9 78 56
+
+[Parent] Sorted array in ascending order:
+9 12 34 56 78 
+
+[Child] PID: 4247 | PPID: 4246
+
+[Child] Executing child process with PID: 4247
+
+[Child] Sorted array in descending order:
+78 56 34 12 9 
+
+[Parent] Child finished. PID: 4247
+
